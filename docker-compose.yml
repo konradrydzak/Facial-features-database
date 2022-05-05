@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongodb:
+    container_name: facial_features_mongo_database
+    image: mongo
+    ports:
+      - ${MONGODB_EXTERNAL_PORT}:27017
+    volumes:
+      - ./mongodb:/data/db
+      
+  mongorestore:
+    image: mongo
+    container_name: import_facial_features
+    volumes:
+      - ./Data/facial_features_database.archive:/facial_features_database.archive
+    command: mongorestore --host=mongodb --archive=/facial_features_database.archive --gzip
+    depends_on:
+      - mongodb
