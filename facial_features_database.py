@@ -1,7 +1,7 @@
 from configparser import ConfigParser
 
+import pymongo
 import streamlit as st
-from pymongo import MongoClient
 
 # MongoDB connection setup
 
@@ -9,7 +9,10 @@ config_file = ConfigParser()
 config_file.read("database.ini")
 URI = config_file['MONGODB']['URI']
 
-client = MongoClient(URI)
+try:
+    client = pymongo.MongoClient(URI)
+except pymongo.errors.ConfigurationError:
+    client = pymongo.MongoClient(st.secrets["URI"])
 db = client["facial_features_database"]
 collection = db["facial_features_collection"]
 
