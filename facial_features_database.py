@@ -121,8 +121,10 @@ if search_clicked or displaying:
                 args=(False, start_index, number_of_images,))
     col2.button(label="Show next page", key="next", on_click=is_displaying,
                 args=(True, start_index, number_of_images,))
-
-    st.header(f"Displaying {end_index - start_index} images (between indexes {start_index + 1} and {end_index}) out of {number_of_images}: ")
+    if number_of_images == 0:
+        st.header(f"Displaying {number_of_images} images")
+    else:
+        st.header(f"Displaying {end_index - start_index} images (between indexes {start_index + 1} and {end_index}) out of {number_of_images}: ")
     if display_cropped == "Yes":
         col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
         columns = [col1, col2, col3, col4, col5, col6, col7, col8]
