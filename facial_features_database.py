@@ -116,26 +116,24 @@ if search_clicked or displaying:
 
     st.session_state.displaying = False  # resets two main session_state values if user does not use "Show previous/next page" buttons
     st.session_state.start_index = 0
-    col1, _, col2 = st.columns([1.5, 9.75, 1])
-    col1.button(label="Show previous page", key="previous", on_click=is_displaying,
-                args=(False, start_index, number_of_images,))
-    col2.button(label="Show next page", key="next", on_click=is_displaying,
-                args=(True, start_index, number_of_images,))
-    if number_of_images == 0:
-        st.header(f"Displaying {number_of_images} images")
-    else:
+    if number_of_images != 0:
         st.header(f"Displaying {end_index - start_index} images (between indexes {start_index + 1} and {end_index}) out of {number_of_images}: ")
-    if display_cropped == "Yes":
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
-        columns = [col1, col2, col3, col4, col5, col6, col7, col8]
-        for i in range(start_index, end_index):
-            columns[2 * (i - start_index)].image(image=results_list[i]["original image"],
-                                                 caption=results_list[i]["filename"], width=200)
-            columns[2 * (i - start_index) + 1].image(image=results_list[i]["cropped image"],
-                                                     caption="Cropped image", width=178)
-    else:
-        col1, col2, col3, col4 = st.columns(4)
-        columns = [col1, col2, col3, col4]
-        for i in range(start_index, end_index):
-            columns[i - start_index].image(image=results_list[i]["original image"],
-                                           caption=results_list[i]["filename"], width=400)
+        col1, _, col2 = st.columns([1.5, 9.75, 1])
+        col1.button(label="Show previous page", key="previous", on_click=is_displaying,
+                    args=(False, start_index, number_of_images,))
+        col2.button(label="Show next page", key="next", on_click=is_displaying,
+                    args=(True, start_index, number_of_images,))
+        if display_cropped == "Yes":
+            col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+            columns = [col1, col2, col3, col4, col5, col6, col7, col8]
+            for i in range(start_index, end_index):
+                columns[2 * (i - start_index)].image(image=results_list[i]["original image"],
+                                                     caption=results_list[i]["filename"], width=200)
+                columns[2 * (i - start_index) + 1].image(image=results_list[i]["cropped image"],
+                                                         caption="Cropped image", width=178)
+        else:
+            col1, col2, col3, col4 = st.columns(4)
+            columns = [col1, col2, col3, col4]
+            for i in range(start_index, end_index):
+                columns[i - start_index].image(image=results_list[i]["original image"],
+                                               caption=results_list[i]["filename"], width=400)
