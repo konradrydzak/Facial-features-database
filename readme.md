@@ -7,8 +7,10 @@ You can preview the app at: [share.streamlit.io](https://share.streamlit.io/konr
 ## Setup
 
 1. Fill in required detail about *MONGODB_EXTERNAL_PORT* in *.env* file:
-2. Run command: *docker-compose up -d*
+2. Run command: `docker-compose up -d`
 3. Use created mongodb instance *URI* in *database.ini* file (example: *URI=mongodb://localhost:<MONGODB_EXTERNAL_PORT>*)
+4. Run program with command: `streamlit run facial_features_database.py`
+5. Web app should be running at: http://localhost:8501/
 
 ## Skills used
 
