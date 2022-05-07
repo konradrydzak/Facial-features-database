@@ -16,7 +16,7 @@ You can preview the app at: [share.streamlit.io](https://share.streamlit.io/konr
 
 - using NoSQL MongoDB database (with both: local instances and cloud database on MongoDB Atlas service)
 - using PyMongo distribution for connecting and querying data from database
-- hosted images on AWS (courtesy of a friend Wiktor *~ thanks!*)
+- hosted images on AWS (courtesy of a friend Wiktor ~ *thanks!*)
 - provided both original and cropped images 
 - prepared an option to filter database based both: on attributes originally from initial database and attributes predicted by a deep neural network (created for master thesis purposes)
 
