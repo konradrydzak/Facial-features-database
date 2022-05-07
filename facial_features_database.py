@@ -88,8 +88,9 @@ else:
 
 # additional function to skip clicking search if user was using "Show previous/next page" buttons
 
-def is_displaying(next_batch, next_run_start_index, number_of_all_images):
+def is_displaying(next_batch, next_run_start_index, number_of_all_images, searched_results_list):
     st.session_state.displaying = True
+    st.session_state.results_list = searched_results_list
     if next_batch:
         if next_run_start_index + 4 < number_of_all_images:
             next_run_start_index += 4
@@ -106,7 +107,13 @@ search_clicked = st.button(label="Search")
 if search_clicked or displaying:
     if len(search) <= 5:
         st.warning("It can take a while...")
-    results_list = list(collection.find(search))
+
+    if 'results_list' not in st.session_state:
+        st.session_state.results_list = list(collection.find(search))
+        results_list = st.session_state.results_list
+    else:
+        results_list = st.session_state.results_list
+
     number_of_images = len(results_list)
     st.success(f"Found: {number_of_images} images. ")
 
@@ -114,15 +121,13 @@ if search_clicked or displaying:
     if end_index > number_of_images:
         end_index = number_of_images
 
-    st.session_state.displaying = False  # resets two main session_state values if user does not use "Show previous/next page" buttons
-    st.session_state.start_index = 0
     if number_of_images != 0:
         st.header(f"Displaying {end_index - start_index} images (between indexes {start_index + 1} and {end_index}) out of {number_of_images}: ")
         col1, _, col2 = st.columns([1.5, 9.75, 1])
         col1.button(label="Show previous page", key="previous", on_click=is_displaying,
-                    args=(False, start_index, number_of_images,))
+                    args=(False, start_index, number_of_images, results_list,))
         col2.button(label="Show next page", key="next", on_click=is_displaying,
-                    args=(True, start_index, number_of_images,))
+                    args=(True, start_index, number_of_images, results_list,))
         if display_cropped == "Yes":
             col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
             columns = [col1, col2, col3, col4, col5, col6, col7, col8]
@@ -137,3 +142,7 @@ if search_clicked or displaying:
             for i in range(start_index, end_index):
                 columns[i - start_index].image(image=results_list[i]["original image"],
                                                caption=results_list[i]["filename"], width=400)
+
+    st.session_state.displaying = False  # resets three main session_state values if user does not use "Show previous/next page" buttons
+    st.session_state.start_index = 0
+    del st.session_state.results_list
