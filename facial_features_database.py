@@ -75,15 +75,11 @@ search = {f"{original_or_predicted}.{nestedfield_name}": nestedfield_value for n
 
 if 'displaying' not in st.session_state:  # parameter used to determine if user was using "Show previous/next page" buttons
     st.session_state.displaying = False
-    displaying = False
-else:
-    displaying = st.session_state.displaying
+displaying = st.session_state.displaying
 
 if 'start_index' not in st.session_state:
     st.session_state.start_index = 0
-    start_index = 0
-else:
-    start_index = st.session_state.start_index
+start_index = st.session_state.start_index
 
 
 # additional function to skip clicking search if user was using "Show previous/next page" buttons
@@ -110,9 +106,7 @@ if search_clicked or displaying:
 
     if 'results_list' not in st.session_state:
         st.session_state.results_list = list(collection.find(search))
-        results_list = st.session_state.results_list
-    else:
-        results_list = st.session_state.results_list
+    results_list = st.session_state.results_list
 
     number_of_images = len(results_list)
     st.success(f"Found: {number_of_images} images. ")
