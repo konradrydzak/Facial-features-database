@@ -12,6 +12,14 @@ You can preview the app at: [share.streamlit.io](https://share.streamlit.io/konr
 4. Run program with command: `streamlit run facial_features_database.py`
 5. Web app should be running at: http://localhost:8501/
 
+## Screenshots
+
+![Example_database_filtering_website.png](docs/Example_database_filtering_website.png "Example database filtering website")
+
+![Example_filtering_results_for_original_dataset.png](docs/Example_filtering_results_for_original_dataset.png "Example filtering results for original dataset")
+
+![Example_filtering_results_for_predicted_attributes_with_additional_cropped_images.png](docs/Example_filtering_results_for_predicted_attributes_with_additional_cropped_images.png "Example filtering results for predicted attributes with additional cropped images")
+
 ## Skills used
 
 - using NoSQL MongoDB database (with both: local instances and cloud database on MongoDB Atlas service)
