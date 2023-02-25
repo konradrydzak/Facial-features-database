@@ -3,19 +3,6 @@ from configparser import ConfigParser
 import pymongo
 import streamlit as st
 
-# MongoDB connection setup
-
-config_file = ConfigParser()
-config_file.read("database.ini")
-URI = config_file['MONGODB']['URI']
-
-try:
-    client = pymongo.MongoClient(URI)
-except pymongo.errors.ConfigurationError:
-    client = pymongo.MongoClient(st.secrets["URI"])
-db = client["facial_features_database"]
-collection = db["facial_features_collection"]
-
 # streamlit page setup
 
 st.set_page_config(
@@ -24,6 +11,26 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed",
 )
+
+# MongoDB connection setup
+
+
+@st.cache_resource
+def mongodb_connection_and_collection_setup():
+    config_file = ConfigParser()
+    config_file.read("database.ini")
+    URI = config_file['MONGODB']['URI']
+
+    try:
+        client = pymongo.MongoClient(URI)
+    except pymongo.errors.ConfigurationError:
+        client = pymongo.MongoClient(st.secrets["URI"])
+    db = client["facial_features_database"]
+
+    return db["facial_features_collection"]
+
+
+collection = mongodb_connection_and_collection_setup()
 
 st.write('<style>div.stRadio > label {font-size:120%; font-weight:bold;}</style>', unsafe_allow_html=True)
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
@@ -41,7 +48,7 @@ features = ['5 o Clock Shadow', 'Arched Eyebrows', 'Attractive', 'Bags Under Eye
 # page starts here
 
 _, center, _ = st.columns([1, 1, 1])  # is used to "cheat" center alignment of elements
-center.title("Facial features database")
+center.title(":blue[Facial features database]")
 
 # mongodb request setup
 
